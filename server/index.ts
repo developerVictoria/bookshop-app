@@ -18,7 +18,10 @@ app.get('/', (req :Request, res: Response) =>{
 app.get('/books', async (req :Request, res: Response) =>{
     try{
          const bookList = await book.find({});
-         res.status(200).json(bookList);
+         res.status(200).json({
+            count: bookList.length,
+            data: bookList
+         });
          return;
  
     }catch(err){
@@ -26,6 +29,20 @@ app.get('/books', async (req :Request, res: Response) =>{
      res.status(500).send({message: err.message})
     }
  })
+
+ app.get('/books/:id', async (req :Request, res: Response) =>{
+    try{
+        const {id} = req.params;
+         const searchedBook = await book.findById(id);
+         res.status(200).json(searchedBook);
+         return;
+ 
+    }catch(err){
+     console.log(err.message);
+     res.status(500).send({message: err.message})
+    }
+ })
+
 
 app.post('/newBook', async (req :Request, res: Response) =>{
    try{
