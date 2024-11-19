@@ -4,10 +4,13 @@ import {BookType, book} from './models/bookModel'
 import mongoose , {Document} from 'mongoose'
 import bodyParser from 'body-parser';
 import booksRoute from './routes/booksRoute'
+import cors from 'cors'
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
+//todo: update to cors object with defined origin, methods, allowedHeaders
 
 app.get('/', (req :Request, res: Response) =>{
     console.log(req);
