@@ -68,6 +68,23 @@ app.put('/books/:id', async (req :Request, res: Response) =>{
     }
  })
 
+app.delete('/books/:id', async (req :Request, res: Response) =>{
+    try{
+        const {id} = req.params;
+         const bookToDelete = await book.findByIdAndDelete(id);
+         if(!bookToDelete){
+            res.status(404).send({message: 'Book not found!'})
+         }
+         res.status(200).send({message: 'Book deleted successfully'});
+         return;
+ 
+    }catch(err){
+     console.log(err.message);
+     res.status(500).send({message: err.message})
+    }
+ });
+
+
 app.post('/newBook', async (req :Request, res: Response) =>{
    try{
         if(!req.body.title || !req.body.author || !req.body.publishYear){
