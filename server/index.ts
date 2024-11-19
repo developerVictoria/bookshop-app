@@ -43,6 +43,30 @@ app.get('/books', async (req :Request, res: Response) =>{
     }
  })
 
+app.put('/books/:id', async (req :Request, res: Response) =>{
+    try{
+        if(!req.body.title || !req.body.author || !req.body.publishYear){
+            res.status(400).send({message: 'Fields required : title, author and publishYear !'});
+            return;
+        }
+        const {id} = req.params;
+        const updateBook:BookType = {
+            title: req.body.title,
+            author: req.body.author,
+            publishYear: req.body.publishYear
+        }
+         const updatedBook = await book.findByIdAndUpdate(id, updateBook);
+         if(!updatedBook){
+            res.status(404).send({message: 'Book not found!'})
+         }
+        res.status(200).json(updatedBook);
+        return;
+ 
+    }catch(err){
+     console.log(err.message);
+     res.status(500).send({message: err.message})
+    }
+ })
 
 app.post('/newBook', async (req :Request, res: Response) =>{
    try{
