@@ -1,0 +1,1 @@
+export const getAllBooksRoute:string = 'http://localhost:5555/books/'
