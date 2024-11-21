@@ -20,10 +20,39 @@ const CreateBook = () => {
           setLoading(false);
           navigate('/');
         })
+        .catch((error)=>{
+          setLoading(false);
+          alert(`An error oqured. Refer to the condole for the details`)
+          console.error(error)
+        })
   }
 
   return (
-    <div>
+    <div className='p-4'>
+      <BackButton />
+      <h1 className='text-3xl my-4'>Create Book</h1>
+      {loading? <Spinner />: ''}
+      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px p-4 mx-auto]'>
+        <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Title</label>
+          <input
+          type='text'
+          value={book.title} 
+          onChange={(e)=>setBook({title:e.target.value, author: book.author, publishYear:book.publishYear})} 
+          className='border-2 border-gray-500 px-4 py-2 w-full' />
+          <input
+          type='text'
+          value={book.title} 
+          onChange={(e)=>setBook({title:book.title, author: e.target.value, publishYear:book.publishYear})} 
+          className='border-2 border-gray-500 px-4 py-2 w-full' />
+          <input
+          type='number'
+          value={book.title} 
+          onChange={(e)=>setBook({title:book.title, author: book.author, publishYear:Number(e.target.value)})} 
+          className='border-2 border-gray-500 px-4 py-2 w-full' />
+        </div>
+      </div>
+
       
     </div>
   )
