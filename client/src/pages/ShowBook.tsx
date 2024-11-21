@@ -14,7 +14,7 @@ const ShowBook = () => {
   
   useEffect(()=>{
     setLoading(true);
-    axios.get(getAllBooksRoute+id)
+    axios.get(`${getAllBooksRoute}${id}`)
     .then((response)=>{
       setBook(response.data);
       setLoading(false);
