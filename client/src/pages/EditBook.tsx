@@ -1,9 +1,82 @@
-import React from 'react'
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+import { useNavigate , useParams} from 'react-router-dom';
+import BackButton from '../components/BackButton';
+import Spinner from '../components/Spinner';
+import {getAllBooksRoute} from './config.tsx'
+import { BookType } from '../types/BookTypes.tsx';
+
 
 const EditBook = () => {
+  const[book, setBook] = useState<BookType>({author:'', title:'', publishYear:0});
+  const[loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const {id} = useParams();
+
+  useEffect(() => {
+    setLoading(true);
+    axios.get(`${getAllBooksRoute}${id}`)
+    .then((response)=>{
+      setLoading(false);
+
+      setBook(response.data);
+    })
+    .catch((error)=>{
+      setLoading(false);
+      alert('An error happend. Please refer to the console for the further detaials');
+      console.error(error);
+    });
+  }, [])
+
+  const handleEditBook = ()=>{
+    setLoading(true);
+    axios
+        .put(`${getAllBooksRoute}${id}`, book)
+        .then(()=>{
+          setLoading(false);
+          navigate('/');
+        })
+        .catch((error)=>{
+          setLoading(false);
+          alert(`An error oqured. Refer to the condole for the details`)
+          console.error(error)
+        })
+  }
+
   return (
-    <div>
-      
+    <div className='p-4'>
+      <BackButton />
+      <h1 className='text-3xl my-4'>Edit Book</h1>
+      {loading? <Spinner />: ''}
+      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px p-4 mx-auto]'>
+        <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Title</label>
+            <input
+            type='text'
+            value={book.title} 
+            onChange={(e)=>setBook({title:e.target.value, author: book.author, publishYear:book.publishYear})} 
+            className='border-2 border-gray-500 px-4 py-2 w-full' />
+          </div>
+          <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Author</label>
+          <input
+          type='text'
+          value={book.author} 
+          onChange={(e)=>setBook({title:book.title, author: e.target.value, publishYear:book.publishYear})} 
+          className='border-2 border-gray-500 px-4 py-2 w-full' />
+          </div>
+          <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Publish Year</label>
+          <input
+          type='number'
+          value={book.publishYear} 
+          onChange={(e)=>setBook({title:book.title, author: book.author, publishYear:Number(e.target.value)})} 
+          className='border-2 border-gray-500 px-4 py-2 w-full' />
+        </div>
+        <button className='p-2 bg-sky-300 m-8' onClick={handleEditBook}>
+          Save
+        </button>
+      </div>
     </div>
   )
 }
