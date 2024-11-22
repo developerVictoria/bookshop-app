@@ -6,3 +6,7 @@ export type BookType = {
     createdAt?:string;
     updatedAt?:string;
 }
+
+export interface IBooksArrayProps {
+    items: BookType[]
+}
