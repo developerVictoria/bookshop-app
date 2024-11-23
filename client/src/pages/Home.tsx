@@ -47,7 +47,7 @@ const Home =()=> {
         </Link>
       </div>
       {loading? <Spinner />: 
-      showType==='table' ? (<BooksTable items={books}/>) : (<BooksCards />)
+      showType==='table' ? (<BooksTable items={books}/>) : (<BooksCards items={books}/>)
       }
       </div>
   )

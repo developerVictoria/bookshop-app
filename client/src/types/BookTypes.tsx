@@ -7,6 +7,15 @@ export type BookType = {
     updatedAt?:string;
 }
 
+export interface IBooksProps {
+    item: BookType;
+    onClose: () => void;
+  }
 export interface IBooksArrayProps {
     items: BookType[]
 }
+
+export interface IBookItemProps {
+    item: BookType
+}
+
